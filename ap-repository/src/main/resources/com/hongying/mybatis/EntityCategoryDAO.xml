@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongying.repository.mapper.EntityCategoryDAO">
+  <resultMap id="BaseResultMap" type="com.hongying.repository.domain.EntityCategory">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="entity" jdbcType="VARCHAR" property="entity" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="relation" jdbcType="TINYINT" property="relation" />
+    <result column="wiki_url" jdbcType="VARCHAR" property="wikiUrl" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, entity, category, relation, wiki_url, `type`, created_at, updated_at
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from entity_category
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from entity_category
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hongying.repository.domain.EntityCategory" useGeneratedKeys="true">
+    insert into entity_category (entity, category, relation, 
+      wiki_url, `type`, created_at, 
+      updated_at)
+    values (#{entity,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, #{relation,jdbcType=TINYINT}, 
+      #{wikiUrl,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hongying.repository.domain.EntityCategory" useGeneratedKeys="true">
+    insert into entity_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="entity != null">
+        entity,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="relation != null">
+        relation,
+      </if>
+      <if test="wikiUrl != null">
+        wiki_url,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="entity != null">
+        #{entity,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null">
+        #{relation,jdbcType=TINYINT},
+      </if>
+      <if test="wikiUrl != null">
+        #{wikiUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hongying.repository.domain.EntityCategory">
+    update entity_category
+    <set>
+      <if test="entity != null">
+        entity = #{entity,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null">
+        relation = #{relation,jdbcType=TINYINT},
+      </if>
+      <if test="wikiUrl != null">
+        wiki_url = #{wikiUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hongying.repository.domain.EntityCategory">
+    update entity_category
+    set entity = #{entity,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      relation = #{relation,jdbcType=TINYINT},
+      wiki_url = #{wikiUrl,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=TINYINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

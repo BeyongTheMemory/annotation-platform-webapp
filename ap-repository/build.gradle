@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'com.hongying.duan'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+ext {
+    mysqlConnectorVersion = '8.0.11'
+    transactionApiVersion = '1.2'
+    mybatisVersion = '3.5.1'
+    mybatisSpringVersion = '2.0.1'
+    druidVersion = '1.1.17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(":ap-common")
+    compile "mysql:mysql-connector-java:$mysqlConnectorVersion"
+    compile "org.springframework:spring-jdbc:$springVersion"
+    compile "javax.transaction:javax.transaction-api:$transactionApiVersion"
+    compile "org.mybatis:mybatis:$mybatisVersion"
+    compile "org.mybatis:mybatis-spring:$mybatisSpringVersion"
+    compile "com.alibaba:druid:$druidVersion"
+
+}
