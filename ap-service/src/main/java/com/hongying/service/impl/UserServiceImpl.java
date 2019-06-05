@@ -2,10 +2,10 @@ package com.hongying.service.impl;
 
 import com.hongying.repository.domain.User;
 import com.hongying.repository.mapper.UserDAO;
-import com.hongying.service.request.LoginRequest;
 import com.hongying.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.hongying.service.request.LoginRequest;
 
 @Service
 public class UserServiceImpl implements UserService {

@@ -1,10 +1,10 @@
 package com.hongying.controller;
 
-import com.hongying.service.request.LoginRequest;
 import com.hongying.response.BaseResponse;
 import com.hongying.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.hongying.service.request.LoginRequest;
 
 @RestController
 @RequestMapping(value = "ap/user")
