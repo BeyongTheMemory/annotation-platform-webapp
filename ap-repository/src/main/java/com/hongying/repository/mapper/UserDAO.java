@@ -13,6 +13,8 @@ public interface UserDAO {
 
     User selectByPrimaryKey(Long id);
 
+    User selectByName(String name);
+
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
