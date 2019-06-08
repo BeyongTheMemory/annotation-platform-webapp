@@ -2,9 +2,17 @@ package com.hongying.service.impl;
 
 import com.hongying.enums.RelationEnum;
 import com.hongying.enums.TypeEnum;
+import com.hongying.exceptions.ApException;
 import com.hongying.repository.domain.EntityCategory;
+import com.hongying.repository.domain.UserFeedback;
 import com.hongying.repository.mapper.EntityCategoryDAO;
+import com.hongying.repository.mapper.UserFeedbackDAO;
 import com.hongying.service.AnnotationService;
+import com.hongying.service.builder.UserFeedbackBuilder;
+import com.hongying.service.dto.EntityCategoryDTO;
+import com.hongying.service.dto.UserFeedbackDTO;
+import com.hongying.service.request.AddFeedbackRequest;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
@@ -20,6 +28,9 @@ public class AnnotationServiceImpl implements AnnotationService {
     private EntityCategoryDAO entityCategoryDAO;
 
     @Autowired
+    private UserFeedbackDAO userFeedbackDAO;
+
+    @Autowired
     ApplicationContext applicationContext;
 
     @Override
@@ -30,7 +41,7 @@ public class AnnotationServiceImpl implements AnnotationService {
         try {
             file = resource.getFile();
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-            do{
+            do {
                 String lineStr = br.readLine();
                 String[] data = lineStr.split("\t");
                 EntityCategory entityCategory = new EntityCategory();
@@ -40,11 +51,47 @@ public class AnnotationServiceImpl implements AnnotationService {
                 entityCategory.setRelation(RelationEnum.INSTANCE.getCode());
                 entityCategory.setType(TypeEnum.SINGLE_RELATION.getCode());
                 entityCategoryDAO.insertSelective(entityCategory);
-            }while(br.read()!=-1);
+            } while (br.read() != -1);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    public EntityCategoryDTO getNextEntityCategory(Long userId, Integer type) {
+        Long minId = 0L;
+        //query last record in userFeedback DB
+        UserFeedback userFeedback = userFeedbackDAO.selectLastRecordByUserIdAndType(userId, type);
+        if (userFeedback != null) {
+            minId = userFeedback.getEntityCategoryId();
+        }
+        EntityCategory entityCategory = entityCategoryDAO.selectOneByMinIdAndType(minId, type);
+        if (entityCategory == null) {
+            return null;
+        }
+        EntityCategoryDTO entityCategoryDTO = new EntityCategoryDTO();
+        BeanUtils.copyProperties(entityCategory, entityCategoryDTO);
+        return entityCategoryDTO;
+    }
+
+    @Override
+    @Transactional
+    public void feedback(Long userId, AddFeedbackRequest request) {
+        Integer type = request.getUserFeedbacks().get(0).getEntityCategoryType();
+        //query last record in userFeedback DB
+        EntityCategoryDTO entityCategoryDTO = getNextEntityCategory(userId, type);
+        if(entityCategoryDTO == null){
+            throw new ApException("all record already feedback");
+        }
+        if (!request.getUserFeedbacks().get(0).getEntityCategoryId().equals(entityCategoryDTO.getId())) {
+            throw new ApException("miss or repeat feedback,please check again");
+        }
+
+        for (UserFeedbackDTO userFeedbackDTO : request.getUserFeedbacks()) {
+            UserFeedback userFeedback = UserFeedbackBuilder.build(userId, type, userFeedbackDTO);
+            userFeedbackDAO.insertSelective(userFeedback);
         }
     }
 

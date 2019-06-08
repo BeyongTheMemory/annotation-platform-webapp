@@ -23,6 +23,9 @@ public class BaseResponse<T> {
         return BaseResponseBuilder.builder().msg(msg).build();
     }
 
+    public static <T> BaseResponse<T> buildFailedResponse(Integer code,String msg){
+        return BaseResponseBuilder.builder().code(code).msg(msg).build();
+    }
 
     private static final class BaseResponseBuilder<T> {
         private Integer code = 200;

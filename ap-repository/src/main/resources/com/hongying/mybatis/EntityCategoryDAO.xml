@@ -15,11 +15,22 @@
     id, entity, category, relation, wiki_url, `type`, created_at, updated_at
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+  select
+  <include refid="Base_Column_List" />
+  from entity_category
+  where id = #{id,jdbcType=BIGINT}
+</select>
+
+  <select id="selectOneByMinIdAndType" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from entity_category
-    where id = #{id,jdbcType=BIGINT}
+    where  type =  #{type,jdbcType=INTEGER}
+    and id > #{id,jdbcType=BIGINT}
+    order by id
+    limit 1
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from entity_category
     where id = #{id,jdbcType=BIGINT}

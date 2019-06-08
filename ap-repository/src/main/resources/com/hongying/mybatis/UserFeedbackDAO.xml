@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongying.repository.mapper.UserFeedbackDAO">
+  <resultMap id="BaseResultMap" type="com.hongying.repository.domain.UserFeedback">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="entity_category_id" jdbcType="BIGINT" property="entityCategoryId" />
+    <result column="entity_category_type" jdbcType="INTEGER" property="entityCategoryType" />
+    <result column="is_correct" jdbcType="TINYINT" property="isCorrect" />
+    <result column="error_reason" jdbcType="VARCHAR" property="errorReason" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, entity_category_id, entity_category_type, is_correct, error_reason, 
+    updated_at, created_at
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_feedback
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectLastRecordByUserIdAndType" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_feedback
+    where user_id = #{userId,jdbcType=BIGINT}
+    and entity_category_type = #{entityCategoryType,jdbcType=INTEGER}
+    order by id desc limit 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_feedback
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.hongying.repository.domain.UserFeedback" useGeneratedKeys="true">
+    insert into user_feedback (user_id, entity_category_id, entity_category_type, 
+      is_correct, error_reason, updated_at, 
+      created_at)
+    values (#{userId,jdbcType=BIGINT}, #{entityCategoryId,jdbcType=BIGINT}, #{entityCategoryType,jdbcType=INTEGER},
+      #{isCorrect,jdbcType=TINYINT}, #{errorReason,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{createdAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.hongying.repository.domain.UserFeedback" useGeneratedKeys="true">
+    insert into user_feedback
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="entityCategoryId != null">
+        entity_category_id,
+      </if>
+      <if test="entityCategoryType != null">
+        entity_category_type,
+      </if>
+      <if test="isCorrect != null">
+        is_correct,
+      </if>
+      <if test="errorReason != null">
+        error_reason,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="entityCategoryId != null">
+        #{entityCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="entityCategoryType != null">
+        #{entityCategoryType,jdbcType=INTEGER},
+      </if>
+      <if test="isCorrect != null">
+        #{isCorrect,jdbcType=TINYINT},
+      </if>
+      <if test="errorReason != null">
+        #{errorReason,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hongying.repository.domain.UserFeedback">
+    update user_feedback
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="entityCategoryId != null">
+        entity_category_id = #{entityCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="entityCategoryType != null">
+        entity_category_type = #{entityCategoryType,jdbcType=INTEGER},
+      </if>
+      <if test="isCorrect != null">
+        is_correct = #{isCorrect,jdbcType=TINYINT},
+      </if>
+      <if test="errorReason != null">
+        error_reason = #{errorReason,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hongying.repository.domain.UserFeedback">
+    update user_feedback
+    set user_id = #{userId,jdbcType=BIGINT},
+      entity_category_id = #{entityCategoryId,jdbcType=BIGINT},
+      entity_category_type = #{entityCategoryType,jdbcType=INTEGER},
+      is_correct = #{isCorrect,jdbcType=TINYINT},
+      error_reason = #{errorReason,jdbcType=VARCHAR},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      created_at = #{createdAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

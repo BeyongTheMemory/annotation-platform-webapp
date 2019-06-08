@@ -7,7 +7,7 @@ import java.util.Date;
  * user
  * @author 
  */
-public class User implements Serializable {
+public class User  {
     private Long id;
 
     private String name;

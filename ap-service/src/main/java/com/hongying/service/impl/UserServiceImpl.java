@@ -1,6 +1,6 @@
 package com.hongying.service.impl;
 
-import com.hongying.exceptions.ApExcetion;
+import com.hongying.exceptions.ApException;
 import com.hongying.repository.domain.User;
 import com.hongying.repository.mapper.UserDAO;
 import com.hongying.service.UserService;
@@ -16,10 +16,10 @@ public class UserServiceImpl implements UserService {
     public Long login(LoginRequest loginRequest) {
         User user = userDAO.selectByName(loginRequest.getName());
         if(user == null){
-            throw new ApExcetion("user not exist");
+            throw new ApException("user not exist");
         }
         if(!user.getPassword().equals(loginRequest.getPassword())){
-            throw new ApExcetion("invalid password");
+            throw new ApException("invalid password");
         }
         return user.getId();
     }

@@ -1,16 +1,15 @@
-package com.hongying.repository.domain;
+package com.hongying.service.dto;
 
 import com.hongying.enums.RelationEnum;
 import com.hongying.enums.TypeEnum;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * entity_category
  * @author 
  */
-public class EntityCategory {
+public class EntityCategoryDTO {
     private Long id;
 
     private String entity;
@@ -30,10 +29,6 @@ public class EntityCategory {
      * @see TypeEnum
      */
     private Integer type;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 
     public Long getId() {
         return id;
@@ -83,19 +78,4 @@ public class EntityCategory {
         this.type = type;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

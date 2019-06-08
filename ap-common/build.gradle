@@ -19,7 +19,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-aop:$springBootVersion"
     compile "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
     compile "org.springframework.boot:spring-boot-starter-cache:$springBootVersion"
-
+    compile "com.alibaba:fastjson:1.2.58"
     compile("org.apache.logging.log4j:log4j-api:$log4jVersion") {
         force = true
     }
