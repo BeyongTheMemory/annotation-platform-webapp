@@ -41,8 +41,8 @@ public class AnnotationServiceImpl implements AnnotationService {
         try {
             file = resource.getFile();
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-            do {
-                String lineStr = br.readLine();
+            String lineStr = br.readLine();
+            while (lineStr != null) {
                 String[] data = lineStr.split("\t");
                 EntityCategory entityCategory = new EntityCategory();
                 entityCategory.setEntity(data[0]);
@@ -51,7 +51,8 @@ public class AnnotationServiceImpl implements AnnotationService {
                 entityCategory.setRelation(RelationEnum.INSTANCE.getCode());
                 entityCategory.setType(TypeEnum.SINGLE_RELATION.getCode());
                 entityCategoryDAO.insertSelective(entityCategory);
-            } while (br.read() != -1);
+                lineStr = br.readLine();
+            }
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,7 +83,7 @@ public class AnnotationServiceImpl implements AnnotationService {
         Integer type = request.getUserFeedbacks().get(0).getEntityCategoryType();
         //query last record in userFeedback DB
         EntityCategoryDTO entityCategoryDTO = getNextEntityCategory(userId, type);
-        if(entityCategoryDTO == null){
+        if (entityCategoryDTO == null) {
             throw new ApException("all record already feedback");
         }
         if (!request.getUserFeedbacks().get(0).getEntityCategoryId().equals(entityCategoryDTO.getId())) {

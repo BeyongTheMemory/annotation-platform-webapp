@@ -1,9 +1,8 @@
 package com.hongying.enums;
 
 public enum ErrorReasonEnum {
-    ENTITY_ERR(0,"Entity is not a entity"),
-    ENTITY_RANGE_ERR(1,"Entity range error"),
-    ENTITY_CATEGORY_ERR(2,"Entity is not belong to this category"),
+    ENTITY_ERR(1,"Entity is wrong"),
+    ENTITY_CATEGORY_ERR(2,"Category is wrong"),
     ;
 
     private int code;
