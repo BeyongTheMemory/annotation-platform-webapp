@@ -27,9 +27,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean initData() {
         User record = new User();
-        record.setName("1");
-        record.setPassword("1");
-        userDAO.insertSelective(record);
+        for(int i = 2;i<100;i++){
+            record.setName(i+"");
+            record.setPassword(i+"");
+            userDAO.insertSelective(record);
+        }
         return true;
     }
 }
