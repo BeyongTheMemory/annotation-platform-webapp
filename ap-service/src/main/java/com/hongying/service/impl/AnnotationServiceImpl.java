@@ -55,8 +55,7 @@ public class AnnotationServiceImpl implements AnnotationService {
             }
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+           throw new ApException(e.getMessage());
         }
     }
 
