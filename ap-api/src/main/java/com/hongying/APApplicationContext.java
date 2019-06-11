@@ -11,6 +11,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+
 @SpringBootApplication
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableAsync
@@ -37,4 +38,5 @@ public class APApplicationContext {
         source.registerCorsConfiguration("/**", buildConfig());
         return new CorsFilter(source);
     }
+
 }

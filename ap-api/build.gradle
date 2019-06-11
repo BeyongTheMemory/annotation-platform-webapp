@@ -1,3 +1,21 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.5.RELEASE'
+    }
+    
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    }
+}
+
+
+
 plugins {
     id 'java'
 }
@@ -7,11 +25,19 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
+
+
+
 repositories {
     mavenCentral()
 }
 
 
 dependencies {
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+
+    jar.archiveName = "ap-api.jar"
     compile project(":ap-service")
 }
