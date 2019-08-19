@@ -100,6 +100,14 @@
     limit 1
   </select>
 
+
+  <select id="selectCountByUserId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    select
+    count(1)
+    from sentence_feedback
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sentence_feedback
     where id = #{id,jdbcType=INTEGER}

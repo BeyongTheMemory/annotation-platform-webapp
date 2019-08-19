@@ -100,6 +100,17 @@
         limit 1
     </select>
 
+    <select id="selectByIndex" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sentence
+        where
+        1=1
+        order by id
+        limit 1
+        offset #{index,jdbcType=INTEGER}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sentence
     where id = #{id,jdbcType=BIGINT}

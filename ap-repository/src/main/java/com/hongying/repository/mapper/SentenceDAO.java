@@ -24,6 +24,8 @@ public interface SentenceDAO {
 
     Sentence selectOneByMinId(@Param("id") Long id);
 
+    Sentence selectByIndex(@Param("index")Integer index);
+
     int updateByExampleSelective(@Param("record") Sentence record, @Param("example") SentenceExample example);
 
     int updateByExample(@Param("record") Sentence record, @Param("example") SentenceExample example);

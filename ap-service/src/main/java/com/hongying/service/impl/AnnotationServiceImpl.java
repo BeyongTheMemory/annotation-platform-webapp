@@ -37,10 +37,8 @@ public class AnnotationServiceImpl implements AnnotationService {
     @Transactional
     public boolean initData() {
         Resource resource = new ClassPathResource("com/hongying/service/orgentity.properties");
-        File file = null;
         try {
-            file = resource.getFile();
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
             String lineStr = br.readLine();
             while (lineStr != null) {
                 String[] data = lineStr.split("\t");

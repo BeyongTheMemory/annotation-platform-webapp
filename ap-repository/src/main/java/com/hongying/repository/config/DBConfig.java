@@ -28,8 +28,8 @@ public class DBConfig implements TransactionManagementConfigurer {
     public DataSource dataSource(){
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/annotation?characterEncoding=UTF-8&useUnicode=true&connectTimeout=10000&autoReconnect=true&maxReconnects=5&failOverReadOnly=false");
-        dataSource.setUsername("hyduan");
-        dataSource.setPassword("123456");
+        dataSource.setUsername("root");
+        dataSource.setPassword("mysql");
         dataSource.setMaxActive(20);
         try {
             dataSource.init();

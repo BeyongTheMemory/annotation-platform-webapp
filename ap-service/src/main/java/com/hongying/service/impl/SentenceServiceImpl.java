@@ -8,7 +8,10 @@ import com.hongying.repository.domain.SentenceFeedback;
 import com.hongying.repository.mapper.SentenceDAO;
 import com.hongying.repository.mapper.SentenceFeedbackDAO;
 import com.hongying.service.SentenceService;
+import com.hongying.service.dto.FeedBackInitDTO;
 import com.hongying.service.dto.SentenceDTO;
+import org.apache.logging.log4j.core.util.FileUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
+import java.util.List;
 
 @Service
 public class SentenceServiceImpl implements SentenceService {
@@ -27,17 +31,17 @@ public class SentenceServiceImpl implements SentenceService {
     @Autowired
     private SentenceFeedbackDAO sentenceFeedbackDAO;
 
+    final private String INIT_REASON = "init";
+
     @Override
     @Transactional
     public boolean init() {
         Resource resource = new ClassPathResource("com/hongying/service/sentence.properties");
-        File file = null;
         try {
-            file = resource.getFile();
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
             String lineStr = br.readLine();
             while (lineStr != null) {
-                if(lineStr.isEmpty()){
+                if (lineStr.isEmpty()) {
                     lineStr = br.readLine();
                     continue;
                 }
@@ -55,7 +59,24 @@ public class SentenceServiceImpl implements SentenceService {
     }
 
     @Override
+    @Transactional
+    public boolean initFeedBack(List<FeedBackInitDTO> feedBackInitDTOs) {
+        for (FeedBackInitDTO feedBackInitDTO : feedBackInitDTOs) {
+            Sentence sentence = sentenceDAO.selectByIndex(feedBackInitDTO.getBeginIndex());
+            if (sentence == null) {
+                throw new ApException("out of index");
+            }
+            feedback(feedBackInitDTO.getUserId(), sentence.getId() - 1, INIT_REASON);
+        }
+        return true;
+    }
+
+    @Override
     public SentenceDTO getNext(Long userId) {
+        int count = sentenceFeedbackDAO.selectCountByUserId(userId);
+        if (count > 500) {
+            return null;
+        }
         Long minId = 0L;
         //query last record in feedback DB
         SentenceFeedback sentenceFeedback = sentenceFeedbackDAO.selectLastRecordByUserId(userId);
@@ -78,7 +99,7 @@ public class SentenceServiceImpl implements SentenceService {
         if (sentenceDTO == null) {
             throw new ApException("all record already feedback");
         }
-        if (!sentenceId.equals(sentenceDTO.getId())) {
+        if ((!sentenceId.equals(sentenceDTO.getId())) && !reason.equals(INIT_REASON)) {
             throw new ApException("miss or repeat feedback,please check again");
         }
 

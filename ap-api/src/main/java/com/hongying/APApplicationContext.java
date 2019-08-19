@@ -28,6 +28,7 @@ public class APApplicationContext {
         corsConfiguration.addAllowedOrigin("http://localhost:3000");
         corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000");
         corsConfiguration.addAllowedOrigin("http://172.26.187.188:3000");
+        corsConfiguration.addAllowedOrigin("http://54.169.250.197:3000");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.setAllowCredentials(true);

@@ -24,6 +24,8 @@ public interface SentenceFeedbackDAO {
 
     SentenceFeedback selectLastRecordByUserId(@Param("userId") Long userId);
 
+    int selectCountByUserId(@Param("userId")Long userId);
+
     int updateByExampleSelective(@Param("record") SentenceFeedback record, @Param("example") SentenceFeedbackExample example);
 
     int updateByExample(@Param("record") SentenceFeedback record, @Param("example") SentenceFeedbackExample example);
