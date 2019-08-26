@@ -35,6 +35,12 @@ public class SentenceController {
     }
 
     @ResponseBody
+    @GetMapping(value = "/count")
+    public BaseResponse<Integer> count(@RequestParam("name") String name) {
+        return BaseResponse.buildSuccessResponse(sentenceService.count(name));
+    }
+
+    @ResponseBody
     @GetMapping(value = "/next")
     public BaseResponse<SentenceDTO> getNext(){
         Long userId = cookieStore.getUserId();

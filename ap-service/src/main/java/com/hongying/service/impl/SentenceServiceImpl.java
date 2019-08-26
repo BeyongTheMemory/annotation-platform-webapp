@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.hongying.exceptions.ApException;
 import com.hongying.repository.domain.Sentence;
 import com.hongying.repository.domain.SentenceFeedback;
+import com.hongying.repository.domain.User;
 import com.hongying.repository.mapper.SentenceDAO;
 import com.hongying.repository.mapper.SentenceFeedbackDAO;
+import com.hongying.repository.mapper.UserDAO;
 import com.hongying.service.SentenceService;
 import com.hongying.service.dto.FeedBackInitDTO;
 import com.hongying.service.dto.SentenceDTO;
@@ -30,6 +32,9 @@ public class SentenceServiceImpl implements SentenceService {
 
     @Autowired
     private SentenceFeedbackDAO sentenceFeedbackDAO;
+
+    @Autowired
+    private UserDAO userDAO;
 
     final private String INIT_REASON = "init";
 
@@ -108,5 +113,19 @@ public class SentenceServiceImpl implements SentenceService {
         sentenceFeedback.setSentenceId(sentenceId);
         sentenceFeedback.setReason(reason);
         sentenceFeedbackDAO.insertSelective(sentenceFeedback);
+    }
+
+    @Override
+    public int count(String name) {
+        User user = userDAO.selectByName(name);
+        if (user == null) {
+            throw new ApException("user not exist");
+        }
+        int count = sentenceFeedbackDAO.selectCountByUserId(user.getId());
+        if (count > 0) {
+            return count - 1;
+        } else {
+            return count;
+        }
     }
 }

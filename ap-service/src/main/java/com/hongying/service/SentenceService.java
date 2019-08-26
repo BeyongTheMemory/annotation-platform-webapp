@@ -13,4 +13,6 @@ public interface SentenceService {
     boolean initFeedBack(List<FeedBackInitDTO> feedBackInitDTOs);
 
     void feedback(Long userId,Long sentenceId,String reason);
+
+    int count(String name);
 }
